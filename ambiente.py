@@ -1,6 +1,8 @@
 '''
 ACA vive todo
 '''
+from obstaculo import Obstaculo
+from robot import Robot
 
 class Ambiente():
 
@@ -11,7 +13,8 @@ class Ambiente():
         self.salida = salida
         self.tamano_x = tamano_x
         self.tamano_y = tamano_y
-        self.cosas = cosas
+        self.obstaculos = obstaculos
+        self.robots = robots
         pass
 
     def generar_ambiente(self):

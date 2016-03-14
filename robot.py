@@ -1,18 +1,19 @@
 '''
 Aca tenemos a HAL
 '''
+from estrategia import Estrategia
 
-from cosa import Cosa
-
-class Robot(Cosa):
+class Robot():
     '''
     '''
     def __init__(self):
         '''
         '''
+        self.giroscopo = orientacion
+        self.posicion = posicion
         self.historia_posiciones = []
         self.historia_acciones = []
-        self.giroscopo = orientacion
+        self.estrategia = estrategia
         pass
 
     def rotar(self):
@@ -33,7 +34,7 @@ class Robot(Cosa):
          '''
          pass
 
-    def estrategia(self):
+    def proximo_paso(self):
         '''
         Dado el estado actual decido que hacer
         '''
