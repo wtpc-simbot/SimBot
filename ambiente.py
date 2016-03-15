@@ -1,13 +1,22 @@
 '''
 ACA vive todo
 '''
-from obstaculo import Obstaculo
-from robot import Robot
 
+import numpy as np 
 class Ambiente():
 
     def __init__(self,entrada,salida,tamano_x,tamano_y,robot,cual_ambiente):
         '''
+        entrada: 2-tuple
+        salida: 2-tuple
+        tamano_x: tamano de la cancha
+        tamano_y: tamano de la cancha
+        robot: el robot que vive en este ambiente
+        matriz: np.array de de tamano_x por tamano_y que tiene:
+            0: vacio
+            1: paredes / obstaculos
+            2: entrada
+            3: salida
         '''
         self.entrada = entrada 
         self.salida = salida   
@@ -26,7 +35,6 @@ class Ambiente():
         dimensiones, donde entrada y salida tienen la forma [x1, y1] ambos)
         Se podria tener varios algoritmos o templates para usar.
         '''
-        import numpy as np    
         size = (self.tamano_x,self.tamano_y)
         matriz = np.zeros(size)               
 
@@ -51,25 +59,29 @@ class Ambiente():
             matriz[3,2:9] = 1
             matriz[6,0:8] = 1
             matriz[4:6,5] = 1
+        elif cual_ambiente==3:        
+            matriz[0:self.tamano_x,0] = 1
+            matriz[0:self.tamano_x,self.tamano_y-1] = 1
+            matriz[0,0:self.tamano_y] = 1
+            matriz[self.tamano_x-1,0:self.tamano_y] = 1
+            matriz[1:9,4] = 1
         else:
-            print  "no conozco ese ambiente"
-            #raise 
-            return []
+            raise Exception(  "no conozco ese ambiente"  )
         
         #entrada = 2 y salida = 3
         matriz[self.entrada] = 2
         matriz[self.salida] = 3                   
+
+        if matriz[tuple(self.robot.posicion)]==1:
+            raise Exception(  "OOOPS el robot esta sobre una pared..." )            
+
         return matriz            
 
     def chequear_solucion(self):
         '''
-        Comprueba que tenga solucion
-        TODO: Poder chequear cosas particulares, la
-        existencia de varios caminos por ejemplo,
-        la dificultad del laberinto.
-        '''
-        
-        
+        Comprueba que tenga solucion, que se pueda ir caminando desde la 
+                entrada a la salida
+        '''        
         while True:
             aux=0
             tiene_solucion = 0
@@ -99,7 +111,7 @@ class Ambiente():
                         if self.matriz[i-1,j]==0:
                             aux += 1
                             self.matriz[i-1,j] = 2
-            print self.matriz
+            #print self.matriz
             if aux == 0:
                 break
             if tiene_solucion == 1:
@@ -113,6 +125,19 @@ class Ambiente():
         visualizar en paralaro (multithreding)
         '''
         pass
+    
+    def sensar(self): 
+        '''
+        Devuelve la cantidad de casillas libres por delante del robot
+        '''
+        distancia = 0
+        posactual = self.robot.posicion  + self.robot.giroscopo
+        #print posactual , self.matriz[tuple(posactual)]
+        while self.matriz[tuple(posactual)] != 1:
+            #print posactual
+            posactual += self.robot.giroscopo
+            distancia += 1
+        return distancia
 
 
 
