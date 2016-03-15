@@ -1,8 +1,14 @@
 '''
 ACA vive todo
+
+INSTALAR python-gasp
+
 '''
 
+
 import numpy as np 
+from gasp import *
+import time
 class Ambiente():
 
     def __init__(self,entrada,salida,tamano_x,tamano_y,cual_ambiente):
@@ -118,14 +124,6 @@ class Ambiente():
                 break
         return tiene_solucion                
 
-    def visualizar(self):
-        '''
-        TODO: hacer visualizacion
-        hacer gif de la visualizacion
-        visualizar en paralaro (multithreding)
-        '''
-        pass
-    
     def eco(self, posicion, orientacion): 
         '''
         Devuelve True si en el proximo movimiento se encuentra una pared, sino False.
@@ -134,6 +132,60 @@ class Ambiente():
             return True
         else:
             return False
+
+    def visualizar(self):
+        '''
+        Funcion que muestra por pantalla el laberinto
+        
+        ENTRADA:
+			Ambiente
+        SALIDA:
+			Imagen por pantalla
+        '''
+        h = (self.tamano_y*32)-16
+        for f in range(self.tamano_x):
+            w = 16
+            for c in range(self.tamano_y):
+                if self.laberinto[f][c] == 0:
+                    Image("grass.png", (w, h))
+                elif self.matriz[f][c] == 1:
+                    Image("bloque.png", (w, h))
+                elif self.matriz[f][c] == 2:
+                    Image("in.png", (w, h))
+                    Image("robot.png", (w, h))
+                elif self.matriz[f][c] == 3:
+                    Image("grass.png", (w, h))
+                    Image("exit.png", (w, h))
+                w += 32
+            h -= 32
+        time.sleep(2)
+        
+    def actualizar(self, posViejaRobot, posNuevaRobot):
+        '''
+        Funcion que muestra por pantalla el recorrido del robot
+        atraves del laberinto, hasta que llega a la salida
+        
+        ENTRADA:
+			posicion:  punto en donde se encuentra el robot
+        SALIDA:
+			Imagen por pantalla
+        '''
+        
+        if posViejaRobot == self.entrada:
+            Image("in.png", (32*posViejaRobot[1]+16, (self.tamano_y*32)-16-32*posViejaRobot[0])) 
+            Image("robot.png", (32*posNuevaRobot[1]+16, (self.tamano_y*32)-16-32*posNuevaRobot[0]))
+        elif posNuevaRobot == self.salida:
+            Image("grass.png", (32*posViejaRobot[1]+16, (self.tamano_y*32)-16-32*posViejaRobot[0]))
+            Image("robot.png", (32*posNuevaRobot[1]+16, (self.tamano_y*32)-16-32*posNuevaRobot[0]))
+            time.sleep(2)
+            Image("grass.png", (32*posNuevaRobot[1]+16, (self.tamano_y*32)-16-32*posNuevaRobot[0]))
+            Image("ganar.png", (int(((self.tamano_y*32)-16)/2),int(((self.tamano_y*32)-16)/2)))
+            time.sleep(5)            
+        else:
+            Image("grass.png", (32*posViejaRobot[1]+16, (self.tamano_y*32)-16-32*posViejaRobot[0]))
+            Image("robot.png", (32*posNuevaRobot[1]+16, (self.tamano_y*32)-16-32*posNuevaRobot[0]))
+            
+        time.sleep(1)
 
             
     def estoy_fuera(self, posicion):
@@ -145,5 +197,6 @@ class Ambiente():
             return True
         else:
             return False
+
 
     
