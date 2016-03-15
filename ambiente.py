@@ -5,7 +5,7 @@ ACA vive todo
 import numpy as np 
 class Ambiente():
 
-    def __init__(self,entrada,salida,tamano_x,tamano_y,robot,cual_ambiente):
+    def __init__(self,entrada,salida,tamano_x,tamano_y,cual_ambiente):
         '''
         entrada: 2-tuple
         salida: 2-tuple
@@ -23,7 +23,6 @@ class Ambiente():
         self.tamano_x = tamano_x 
         self.tamano_y = tamano_y
         #self.obstaculos = obstaculos #Hacen falta los obtaculos?
-        self.robot = robot
         self.matriz = self.generar_ambiente(cual_ambiente)
 
 
@@ -72,8 +71,9 @@ class Ambiente():
         matriz[self.entrada] = 2
         matriz[self.salida] = 3                   
 
-        if matriz[tuple(self.robot.posicion)]==1:
-            raise Exception(  "OOOPS el robot esta sobre una pared..." )            
+        # Quitado el robot de ambiente
+        #if matriz[tuple(self.robot.posicion)]==1:
+        #    raise Exception(  "OOOPS el robot esta sobre una pared..." )            
 
         return matriz            
 
@@ -126,19 +126,24 @@ class Ambiente():
         '''
         pass
     
-    def sensar(self): 
+    def eco(self, posicion, orientacion): 
         '''
-        Devuelve la cantidad de casillas libres por delante del robot
+        Devuelve True si en el proximo movimiento se encuentra una pared, sino False.
         '''
-        distancia = 0
-        posactual = self.robot.posicion  + self.robot.giroscopo
-        #print posactual , self.matriz[tuple(posactual)]
-        while self.matriz[tuple(posactual)] != 1:
-            #print posactual
-            posactual += self.robot.giroscopo
-            distancia += 1
-        return distancia
+        if self.matriz[tuple(posicion + orientacion)] == 1:
+            return True
+        else:
+            return False
 
-
+            
+    def estoy_fuera(self, posicion):
+        '''
+        Comprueba si salio
+        '''
+        # SOLUCION SUPER FEA TODO: algo mas lindo
+        if posicion[0] == self.salida[0] and posicion[1] == self.salida[1]:
+            return True
+        else:
+            return False
 
     

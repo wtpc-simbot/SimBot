@@ -6,6 +6,6 @@ class Estrategia():
     def __init__(self):
         pass
 
-    def estrategia(self):
+    def decidir(self):
         pass
             
