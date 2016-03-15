@@ -1,5 +1,6 @@
 
 import numpy as np
+from gasp import *
 from ambiente import Ambiente
 from robot import Robot
 
@@ -17,6 +18,23 @@ for cual_ambiente in xrange(4):
     print ambiente.matriz
     print "tiene solucion?" , ambiente.chequear_solucion()
     print "distancia: ", ambiente.sensar()
+    
+    
+    
+    '''
+    PARA GRAFICAR
+    
+    width = len(laberinto.matriz)*32
+    height = len(laberinto.matriz[0])*32
+    begin_graphics(width=width, height=height, title="SimBot")
+    una_prueba.visualizar()
+    una_prueba.actualizar([0,0],[0,1])
+    una_prueba.actualizar([0,1],[0,2])
+    una_prueba.actualizar([0,2],[0,3])
+    una_prueba.actualizar([0,3],[1,3])
+    end_graphics()
+    
+    '''
 
 
 
