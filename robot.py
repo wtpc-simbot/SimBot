@@ -6,14 +6,14 @@ from estrategia import Estrategia
 class Robot():
     '''
     '''
-    def __init__(self):
+    def __init__(self,posicion,orientacion):
         '''
         '''
         self.giroscopo = orientacion
         self.posicion = posicion
+        #self.estrategia = estrategia.Estrategia 
         self.historia_posiciones = []
         self.historia_acciones = []
-        self.estrategia = estrategia
         pass
 
     def rotar(self):
