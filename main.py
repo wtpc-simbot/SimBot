@@ -21,11 +21,26 @@ cual_ambiente = 2
 
 ambiente = Ambiente(entrada, salida, tamano_x, tamano_y, robot, cual_ambiente)
 
-print ambiente.matriz
+print "El laberinto tiene salida?", ambiente.chequear_solucion()
 
 robot.salir_del_laberinto(ambiente)
 
 print ambiente.matriz
+
+
+#chequeo que no camine por las paredes
+for i in robot.historia_posiciones:
+    if ambiente.matriz[tuple(i)] == 1:
+        print "OOPS el robot paso por arriba de una pared en ", i
+
+consumo_bateria = \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 'l'])*1 + \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 'r'])*1 + \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 's'])*1 + \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 'f'])*2 + \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 'x'])*4 
+
+print "consumo bateria: ",consumo_bateria, "diferencia calculos: ",consumo_bateria - (carga_inicial - robot.bateria)
 
 
 '''

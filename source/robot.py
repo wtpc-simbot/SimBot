@@ -33,13 +33,12 @@ class Robot():
 			a = self.giroscopo[0]
 			self.giroscopo[0] = self.giroscopo[1]
 			self.giroscopo[1] = -a
-		
+			self.historia_acciones.append('r')		
         if giro == "izquierda":
 			a = self.giroscopo[1]
 			self.giroscopo[1] = self.giroscopo[0]
 			self.giroscopo[0] = -a
-			
-        #self.historia_acciones.append(self.giroscopo)
+			self.historia_acciones.append('l')
         self.consumo_bateria('rotar')
        
 
@@ -53,9 +52,11 @@ class Robot():
              self.posicion[0] += self.giroscopo[0]
              self.posicion[1] += self.giroscopo[1]
              self.consumo_bateria('mover')
+             self.historia_acciones.append('f')
          else:
              # Choca contra la pared
              self.consumo_bateria('chocar')
+             self.historia_acciones.append('x')
              pass
          self.historia_posiciones.append(list(self.posicion))
          
@@ -67,6 +68,8 @@ class Robot():
          TODO: Contemplar el caso de que sense la entrado o la salida.
          '''
          self.consumo_bateria('sensar')
+         self.historia_acciones.append('s')
+
          return un_ambiente.eco()         
          
     def salir_del_laberinto(self,un_ambiente):
@@ -75,7 +78,7 @@ class Robot():
         TODO: Comprobar estado de la bateria, en caso de que se termine romper el while.
         '''
         print self.posicion , self.giroscopo , self.sensar(un_ambiente)
-        while not un_ambiente.estoy_fuera(self.posicion) and self.bateria > 0:            
+        while not un_ambiente.estoy_fuera() and self.bateria > 0:            
             self.mi_estrategia.decidir(self,un_ambiente)
             print self.posicion , self.giroscopo , self.sensar(un_ambiente), len(self.historia_posiciones)
         # eventualmente pasar la carga actual de la bateria
