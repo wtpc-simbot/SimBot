@@ -6,18 +6,18 @@ from estrategia import Estrategia
 
 class Buscador_por_derecha(Estrategia):
 
-    def estrategia(self, robot):
+    def decidir(self, robot,un_ambiente):
         self.robot = robot
 
-        if self.robot.sensar() == 0:
+        if self.robot.sensar(un_ambiente) == 0:
             self.robot.rotar("izquierda")
-            self.robot.mover()
+            self.robot.mover(un_ambiente)
             
         else:
             self.robot.rotar("derecha")
-            if self.robot.sensar() == 0:
+            if self.robot.sensar(un_ambiente) == 0:
                 self.robot.rotar("izquierda")
-                self.robot.mover()
+                self.robot.mover(un_ambiente)
             else:
-                self.robot.mover()
+                self.robot.mover(un_ambiente)
             
