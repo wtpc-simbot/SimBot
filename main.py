@@ -1,10 +1,10 @@
 
 import numpy as np
 from gasp import *
-from ambiente import Ambiente
-from robot import Robot
+from source.ambiente import Ambiente
+from source.robot import Robot
 
-from hamster import Hamster
+from source.estrategias.hamster import Hamster
 
 tamano_x, tamano_y = (10,10)
 entrada = (1,1)

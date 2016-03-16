@@ -1,7 +1,7 @@
 '''
 Aca tenemos a HAL
 '''
-from estrategia import Estrategia
+from estrategias.estrategia import Estrategia
 from ambiente import Ambiente
 
 class Robot():

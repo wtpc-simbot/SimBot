@@ -4,7 +4,7 @@ Toma la estrategia de un hamster caminando para cualquier lugar
 
 from estrategia import Estrategia
 from random import random
-from robot import Robot
+from ..robot import Robot
 
 
 class Hamster(Estrategia):
