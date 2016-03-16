@@ -12,6 +12,7 @@ import time
 from source.robot import Robot
 from laberinto import Laberinto
 
+
 class Ambiente():
 
     def __init__(self, robot, laberinto):
@@ -90,7 +91,6 @@ class Ambiente():
         # Quitado el robot de ambiente
         #if matriz[tuple(self.robot.posicion)]==1:
         #    raise Exception(  "OOOPS el robot esta sobre una pared..." )            
-
         return matriz            
         
 
@@ -169,51 +169,70 @@ class Ambiente():
         SALIDA:
 			Imagen por pantalla
         '''
-        h = (self.tamano_y*32)-16
-        for f in range(self.tamano_x):
+        
+        h = (self.laberinto.tamano_y*32)-16
+        for f in range(self.laberinto.tamano_x):
             w = 16
-            for c in range(self.tamano_y):
-                if self.laberinto[f][c] == 0:
-                    Image("grass.png", (w, h))
+            for c in range(self.laberinto.tamano_y):
+                if self.matriz[f][c] == 0:
+                    Image("./img/grass.png", (w, h))
                 elif self.matriz[f][c] == 1:
-                    Image("bloque.png", (w, h))
+                    Image("./img/bloque.png", (w, h))
                 elif self.matriz[f][c] == 2:
-                    Image("in.png", (w, h))
-                    Image("robot.png", (w, h))
+                    Image("./img/in.png", (w, h))
+                    Image("./img/robot_up.png", (w, h))
                 elif self.matriz[f][c] == 3:
-                    Image("grass.png", (w, h))
-                    Image("exit.png", (w, h))
+                    Image("./img/grass.png", (w, h))
+                    Image("./img/exit.png", (w, h))
                 w += 32
             h -= 32
         time.sleep(2)
         
-    def actualizar(self, posViejaRobot, posNuevaRobot):
+    def actualizar(self, posViejaRobot, posNuevaRobot, orientacion):
         '''
         Funcion que muestra por pantalla el recorrido del robot
         atraves del laberinto, hasta que llega a la salida
+        
+        orientacion
+        (-1,0) abajo 
+        (0,1) derecha
+        (1,0) arriba
+        (0,-1) izquierda
+        
         
         ENTRADA:
 			posicion:  punto en donde se encuentra el robot
         SALIDA:
 			Imagen por pantalla
         '''
+        '''
+        if orientacion[0] == 1 and orientacion[1] == 0:
+            imagen_orientacion = "./img/robot_down.png"
+        elif orientacion[0] == 0 and orientacion[1] == 1:
+            imagen_orientacion = "./img/robot_up.png"
+        elif orientacion[0] == -1 and orientacion[1] == 0:
+            imagen_orientacion = "./img/robot_right.png"
+        elif orientacion[0] == 0 and orientacion[1] == -1:
+            imagen_orientacion = "./img/robot_left.png"
+        '''
+        imagen_orientacion = "./img/robot_up.png"
+        Image(imagen_orientacion, (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0])) 
         
-        if posViejaRobot == self.entrada:
-            Image("in.png", (32*posViejaRobot[1]+16, (self.tamano_y*32)-16-32*posViejaRobot[0])) 
-            Image("robot.png", (32*posNuevaRobot[1]+16, (self.tamano_y*32)-16-32*posNuevaRobot[0]))
-        elif posNuevaRobot == self.salida:
-            Image("grass.png", (32*posViejaRobot[1]+16, (self.tamano_y*32)-16-32*posViejaRobot[0]))
-            Image("robot.png", (32*posNuevaRobot[1]+16, (self.tamano_y*32)-16-32*posNuevaRobot[0]))
-            time.sleep(2)
-            Image("grass.png", (32*posNuevaRobot[1]+16, (self.tamano_y*32)-16-32*posNuevaRobot[0]))
-            Image("ganar.png", (int(((self.tamano_y*32)-16)/2),int(((self.tamano_y*32)-16)/2)))
-            time.sleep(5)            
-        else:
-            Image("grass.png", (32*posViejaRobot[1]+16, (self.tamano_y*32)-16-32*posViejaRobot[0]))
-            Image("robot.png", (32*posNuevaRobot[1]+16, (self.tamano_y*32)-16-32*posNuevaRobot[0]))
+        time.sleep(.5)
+        if posViejaRobot[0] == self.laberinto.entrada[0] and posViejaRobot[1] == self.laberinto.entrada[1]:
+            Image("./img/in.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0])) 
+            Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
             
-        time.sleep(1)
-
+        elif posNuevaRobot[0] == self.laberinto.salida[0] and  posNuevaRobot[1] == self.laberinto.salida[1]:
+            Image("./img/grass.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0]))
+            Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
+            time.sleep(1)
+            Image("./img/grass.png", (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
+            Image("./img/ganar.png", (int(((self.laberinto.tamano_y*32)-16)/2),int(((self.laberinto.tamano_y*32)-16)/2)))
+            time.sleep(5)            
+        elif posViejaRobot[0] == posNuevaRobot[0] or posViejaRobot[1] == posNuevaRobot[1]:
+            Image("./img/grass.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0]))
+            Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
             
     def estoy_fuera(self):
         """

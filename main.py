@@ -1,4 +1,4 @@
-
+import time
 import numpy as np
 from gasp import *
 from source.ambiente import Ambiente
@@ -23,25 +23,27 @@ buscador_por_derecha = Buscador_por_derecha()
 carga_inicial = 1000000
 
 robot = Robot(ori_robot, pos_robot, hamster, carga_inicial)
-#robot = Robot(ori_robot, pos_robot, hamster_entrenado, carga_inicial)
-#robot = Robot(ori_robot, pos_robot, hamster_entrenado, carga_inicial)
-
 laberinto = Laberinto(entrada, salida, tamano_x, tamano_y)
-
 ambiente = Ambiente(robot, laberinto)
 
+# Chequea que tenga salida el laberinto
 print "El laberinto tiene salida?", ambiente.chequear_solucion()
 
+width = len(ambiente.matriz)*32
+height = len(ambiente.matriz[0])*32
+begin_graphics(width=width, height=height, title="SimBot")
+
+ambiente.visualizar()
 robot.salir_del_laberinto(ambiente)
 
 print ambiente.matriz
-
 
 #chequeo que no camine por las paredes
 for i in robot.historia_posiciones:
     if ambiente.matriz[tuple(i)] == 1:
         print "OOPS el robot paso por arriba de una pared en ", i
 
+# Comprueba que la suma de los consumos de las acciones sea igual al estado de la bateria
 consumo_bateria = \
       len([i for i,x in enumerate(robot.historia_acciones) if x == 'l'])*1 + \
       len([i for i,x in enumerate(robot.historia_acciones) if x == 'r'])*1 + \
@@ -51,27 +53,7 @@ consumo_bateria = \
 
 print "consumo bateria: ",consumo_bateria, "diferencia calculos: ",consumo_bateria - (carga_inicial - robot.bateria)
 
-
-'''
-for cual_ambiente in xrange(4):
-    ambiente = Ambiente(entrada,salida,tamano_x,tamano_y,robots,cual_ambiente)
-    print ambiente.matriz
-    print "tiene solucion?" , ambiente.chequear_solucion()
-    print "distancia: ", ambiente.sensar()
-
-PARA GRAFICAR
-
-width = len(laberinto.matriz)*32
-height = len(laberinto.matriz[0])*32
-begin_graphics(width=width, height=height, title="SimBot")
-una_prueba.visualizar()
-una_prueba.actualizar([0,0],[0,1])
-una_prueba.actualizar([0,1],[0,2])
-una_prueba.actualizar([0,2],[0,3])
-una_prueba.actualizar([0,3],[1,3])
 end_graphics()
-    
- '''
 
 
 
