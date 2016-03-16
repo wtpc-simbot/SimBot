@@ -10,7 +10,7 @@ from random import random
 
 class Hamster_Entrenado(Estrategia):
 
-    def estrategia(self, robot):
+    def decidir(self, robot, un_ambiente):
         self.robot = robot
         numero = random()
 
@@ -23,7 +23,7 @@ class Hamster_Entrenado(Estrategia):
                 if proximo_paso_en_historial(self.robot):
                     pass
                 else:
-                    self.robot.mover()
+                    self.robot.mover(un_ambiente)
                     movimiento_posible = True
                 #doblar a la izquierda y caminar
             elif numero > 1/3. and numero < 2/3.:
@@ -31,13 +31,13 @@ class Hamster_Entrenado(Estrategia):
                 if proximo_paso_en_historial(self.robot):
                     pass
                 else:            
-                    self.robot.mover()
+                    self.robot.mover(un_ambiente)
                     movimiento_posible = True
                 #doblar a la derecha y caminar
             else:
                 if proximo_paso_en_historial(self.robot):
                     pass
                 else:                
-                    self.robot.mover()
+                    self.robot.mover(un_ambiente)
                     movimiento_posible = True
             

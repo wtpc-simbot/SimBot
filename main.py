@@ -6,26 +6,51 @@ from source.robot import Robot
 from source.laberinto import Laberinto
 
 from source.estrategias.hamster import Hamster
+from source.estrategias.buscador_por_derecha import Buscador_por_derecha
+from source.estrategias.hamster_entrenado import Hamster_Entrenado
 
-tamano_x, tamano_y = (10,10)
+
+
+tamano_x, tamano_y = (15,15)
 entrada = (1,1)
 salida = (tamano_x-2,tamano_y-2)
 pos_robot = np.array(entrada)
 ori_robot = np.array((0,1))
 
 hamster = Hamster()
+hamster_entrenado=Hamster_Entrenado()
+buscador_por_derecha = Buscador_por_derecha()
+carga_inicial = 1000000
 
-robot = Robot(ori_robot, pos_robot, hamster)
-
-#cual_ambiente = 1
+robot = Robot(ori_robot, pos_robot, hamster, carga_inicial)
+#robot = Robot(ori_robot, pos_robot, hamster_entrenado, carga_inicial)
+#robot = Robot(ori_robot, pos_robot, hamster_entrenado, carga_inicial)
 
 laberinto = Laberinto(entrada, salida, tamano_x, tamano_y)
 
 ambiente = Ambiente(robot, laberinto)
 
-print ambiente.matriz
+print "El laberinto tiene salida?", ambiente.chequear_solucion()
 
 robot.salir_del_laberinto(ambiente)
+
+print ambiente.matriz
+
+
+#chequeo que no camine por las paredes
+for i in robot.historia_posiciones:
+    if ambiente.matriz[tuple(i)] == 1:
+        print "OOPS el robot paso por arriba de una pared en ", i
+
+consumo_bateria = \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 'l'])*1 + \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 'r'])*1 + \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 's'])*1 + \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 'f'])*2 + \
+      len([i for i,x in enumerate(robot.historia_acciones) if x == 'x'])*4 
+
+print "consumo bateria: ",consumo_bateria, "diferencia calculos: ",consumo_bateria - (carga_inicial - robot.bateria)
+
 
 '''
 for cual_ambiente in xrange(4):
