@@ -6,23 +6,27 @@ from source.robot import Robot
 
 from source.estrategias.hamster import Hamster
 
-tamano_x, tamano_y = (10,10)
+tamano_x, tamano_y = (15,15)
 entrada = (1,1)
 salida = (tamano_x-2,tamano_y-2)
 pos_robot = np.array(entrada)
 ori_robot = np.array((0,1))
 
 hamster = Hamster()
+carga_inicial = 1000000
 
-robot = Robot(ori_robot, pos_robot, hamster)
+robot = Robot(ori_robot, pos_robot, hamster, carga_inicial)
 
-cual_ambiente = 1
+cual_ambiente = 2
 
 ambiente = Ambiente(entrada, salida, tamano_x, tamano_y, robot, cual_ambiente)
 
 print ambiente.matriz
 
 robot.salir_del_laberinto(ambiente)
+
+print ambiente.matriz
+
 
 '''
 for cual_ambiente in xrange(4):
