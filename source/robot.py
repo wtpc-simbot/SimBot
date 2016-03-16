@@ -2,17 +2,15 @@
 Aca tenemos a HAL
 '''
 from estrategias.estrategia import Estrategia
-from ambiente import Ambiente
 
 class Robot():
     '''
     '''
-    def __init__(self, orientacion, posicion, estrategia, ambiente):
+    def __init__(self, orientacion, posicion, estrategia):
         '''
 		Inicializa el objeto Robot con su posicion, orientacion y un objeto estrategia asociado
         '''
-        self.mi_estrategia = estrategia
-        self.mi_ambiente = ambiente        
+        #self.mi_ambiente = ambiente        
         self.giroscopo = orientacion
         # TODO hacer la posicion un array
         self.posicion = posicion
@@ -42,15 +40,15 @@ class Robot():
 			
         #self.historia_acciones.append(self.giroscopo)
 
-    def mover(self):
+    def mover(self,un_ambiente):
          '''
         Esto usa la estrategia para una rapida solucion
 		Sin retorno, actualiza la posicion del objeto
 		Quizas deba agregar un chequeo de las orientaciones y de la poscion dentro del ambiente
          '''
-         if self.sensar() != 0:
-             self.posicion[0] + self.giroscopo[0]
-             self.posicion[1] + self.giroscopo[1]     
+         if self.sensar(un_ambiente) != 0:
+             self.posicion[0] += self.giroscopo[0]
+             self.posicion[1] += self.giroscopo[1]     
          else:
              # Choca contra la pared
              pass
@@ -62,32 +60,22 @@ class Robot():
          #	print("Me quede sin bateria")
          # apagar robot (puede ser una llamada a un metodo especifico) 
 
-    def sensar(self):
+    def sensar(self,un_ambiente):        
          '''
-        SOLO sensa para adelante y toma de ambientes la distancia al proximo obstaculo o limite en la orientacion actual	
-		Devuelve el numero entero de pasos posibles hacia adelante
+         SOLO sensa para adelante y toma de ambientes la distancia al proximo obstaculo o limite en la orientacion actual	
+	   Devuelve el numero entero de pasos posibles hacia adelante
          TODO: Contemplar el caso de que sense la entrado o la salida.
          '''
+         return un_ambiente.eco()         
          
-         contador = 0
-         
-         sensar_pared = self.mi_ambiente.eco(self.posicion, self.giroscopo)
-         while True:
-             
-             if sensar_pared:
-                 return contador
-             else:
-                 contador += 1
-                 sensar_pared = self.mi_ambiente.eco(self.posicion, self.giroscopo * (contador + 1))
-                 
-             
-			
-    def salir_del_laberinto(self):
+    def salir_del_laberinto(self,un_ambiente):
         '''
         Envia estado actual a estrategia para recibir una orden. Estrategia ejecutara las funciones mover, sensar y girar
         TODO: Comprobar estado de la bateria, en caso de que se termine romper el while.
         '''
-        while not self.mi_ambiente.estoy_fuera(self.posicion):
-            self.mi_estrategia.decidir(self)
+        print self.posicion , self.giroscopo , self.sensar(un_ambiente)
+        while not un_ambiente.estoy_fuera(self.posicion):            
+            self.mi_estrategia.decidir(self,un_ambiente)
+            print self.posicion , self.giroscopo , self.sensar(un_ambiente)
         # eventualmente pasar la carga actual de la bateria
         

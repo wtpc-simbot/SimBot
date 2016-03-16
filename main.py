@@ -14,11 +14,15 @@ ori_robot = np.array((0,1))
 
 hamster = Hamster()
 
-ambiente = Ambiente(entrada,salida,tamano_x,tamano_y,1)
+robot = Robot(ori_robot, pos_robot, hamster)
 
-robots = Robot(ori_robot, pos_robot, hamster, ambiente)
+cual_ambiente = 1
 
-robots.salir_del_laberinto()
+ambiente = Ambiente(entrada, salida, tamano_x, tamano_y, robot, cual_ambiente)
+
+print ambiente.matriz
+
+robot.salir_del_laberinto(ambiente)
 
 '''
 for cual_ambiente in xrange(4):

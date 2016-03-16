@@ -9,9 +9,12 @@ INSTALAR python-gasp
 import numpy as np 
 from gasp import *
 import time
+from source.robot import Robot
+
 class Ambiente():
 
-    def __init__(self,entrada,salida,tamano_x,tamano_y,cual_ambiente):
+    def __init__(self, entrada, salida, tamano_x, tamano_y, robot, 
+                 cual_ambiente):
         '''
         entrada: 2-tuple
         salida: 2-tuple
@@ -28,7 +31,7 @@ class Ambiente():
         self.salida = salida   
         self.tamano_x = tamano_x 
         self.tamano_y = tamano_y
-        #self.obstaculos = obstaculos #Hacen falta los obtaculos?
+        self.robot = robot
         self.matriz = self.generar_ambiente(cual_ambiente)
 
 
@@ -124,14 +127,18 @@ class Ambiente():
                 break
         return tiene_solucion                
 
-    def eco(self, posicion, orientacion): 
+    def eco(self): 
         '''
-        Devuelve True si en el proximo movimiento se encuentra una pared, sino False.
+        Devuelve la cantidad de casillas libres por delante del robot
         '''
-        if self.matriz[tuple(posicion + orientacion)] == 1:
-            return True
-        else:
-            return False
+        distancia = 0
+        posicion_sensada = self.robot.posicion  + self.robot.giroscopo
+        #print posicion_sensada , self.matriz[tuple(posicion_sensada)]
+        while self.matriz[tuple(posicion_sensada)] != 1:
+            #print posicion_sensada
+            posicion_sensada += self.robot.giroscopo
+            distancia += 1
+        return distancia
 
     def visualizar(self):
         '''
@@ -194,6 +201,7 @@ class Ambiente():
         '''
         # SOLUCION SUPER FEA TODO: algo mas lindo
         if posicion[0] == self.salida[0] and posicion[1] == self.salida[1]:
+            print "Libertad!!!"
             return True
         else:
             return False
