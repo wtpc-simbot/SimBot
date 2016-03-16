@@ -10,11 +10,11 @@ import numpy as np
 from gasp import *
 import time
 from source.robot import Robot
+from laberinto import Laberinto
 
 class Ambiente():
 
-    def __init__(self, entrada, salida, tamano_x, tamano_y, robot, 
-                 cual_ambiente):
+    def __init__(self, robot, laberinto):
         '''
         entrada: 2-tuple
         salida: 2-tuple
@@ -27,22 +27,24 @@ class Ambiente():
             2: entrada
             3: salida
         '''
-        self.entrada = entrada 
-        self.salida = salida   
-        self.tamano_x = tamano_x 
-        self.tamano_y = tamano_y
+        
+        #self.entrada = entrada 
+        #self.salida = salida   
+        #self.tamano_x = tamano_x 
+        #self.tamano_y = tamano_y
         self.robot = robot
-        self.matriz = self.generar_ambiente(cual_ambiente)
+        self.laberinto = laberinto
+        self.matriz = self.laberinto.hacer()
 
-
-    def generar_ambiente(self,cual_ambiente): #, dimensiones, entrada, salida
-            #,algoritmo_de_generacion):
         '''
+        def generar_ambiente(self,cual_ambiente): #, dimensiones, entrada, salida
+        #,algoritmo_de_generacion):
+        
         Genera donde se va a guardar la ubicacion de los
         obstaculos y del robot (posiblemente una matriz de tamano
         dimensiones, donde entrada y salida tienen la forma [x1, y1] ambos)
         Se podria tener varios algoritmos o templates para usar.
-        '''
+        
         size = (self.tamano_x,self.tamano_y)
         matriz = np.zeros(size)               
 
@@ -85,12 +87,11 @@ class Ambiente():
         #    raise Exception(  "OOOPS el robot esta sobre una pared..." )            
 
         return matriz            
+        '''
 
     def chequear_solucion(self):
         '''
-        Comprueba que tenga solucion, que se pueda ir caminando desde la 
-                entrada a la salida
-        '''        
+        Comprueba que tenga solucion, que se pueda ir caminando desde la entrada a la salida'''
         while True:
             aux=0
             tiene_solucion = 0
@@ -200,7 +201,7 @@ class Ambiente():
         Comprueba si salio
         '''
         # SOLUCION SUPER FEA TODO: algo mas lindo
-        if posicion[0] == self.salida[0] and posicion[1] == self.salida[1]:
+        if posicion[0] == self.laberinto.salida[0] and posicion[1] == self.laberinto.salida[1]:
             print "Libertad!!!"
             return True
         else:

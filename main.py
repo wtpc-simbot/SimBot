@@ -3,6 +3,7 @@ import numpy as np
 from gasp import *
 from source.ambiente import Ambiente
 from source.robot import Robot
+from source.laberinto import Laberinto
 
 from source.estrategias.hamster import Hamster
 
@@ -16,9 +17,11 @@ hamster = Hamster()
 
 robot = Robot(ori_robot, pos_robot, hamster)
 
-cual_ambiente = 1
+#cual_ambiente = 1
 
-ambiente = Ambiente(entrada, salida, tamano_x, tamano_y, robot, cual_ambiente)
+laberinto = Laberinto(entrada, salida, tamano_x, tamano_y)
+
+ambiente = Ambiente(robot, laberinto)
 
 print ambiente.matriz
 
