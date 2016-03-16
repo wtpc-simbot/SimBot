@@ -57,14 +57,8 @@ class Robot():
              # Choca contra la pared
              self.consumo_bateria('chocar')
              pass
-             
-         self.historia_posiciones.append(self.posicion)
-                     
+         self.historia_posiciones.append(list(self.posicion))
          
-         # self.bateria -= 5
-         # if self.bateria == 0:
-         #	print("Me quede sin bateria")
-         # apagar robot (puede ser una llamada a un metodo especifico) 
 
     def sensar(self,un_ambiente):        
          '''
@@ -83,7 +77,7 @@ class Robot():
         print self.posicion , self.giroscopo , self.sensar(un_ambiente)
         while not un_ambiente.estoy_fuera(self.posicion) and self.bateria > 0:            
             self.mi_estrategia.decidir(self,un_ambiente)
-            print self.posicion , self.giroscopo , self.sensar(un_ambiente)
+            print self.posicion , self.giroscopo , self.sensar(un_ambiente), len(self.historia_posiciones)
         # eventualmente pasar la carga actual de la bateria
     
     def consumo_bateria(self,accion):
