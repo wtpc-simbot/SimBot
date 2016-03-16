@@ -46,14 +46,20 @@ class Robot():
 		Sin retorno, actualiza la posicion del objeto
 		Quizas deba agregar un chequeo de las orientaciones y de la poscion dentro del ambiente
          '''
+         
+         
          if self.sensar(un_ambiente) != 0:
              self.posicion[0] += self.giroscopo[0]
              self.posicion[1] += self.giroscopo[1]     
          else:
              # Choca contra la pared
              pass
-             
+         
+           
          self.historia_posiciones.append(self.posicion)
+         
+
+		
          
          # self.bateria -= 5
          # if self.bateria == 0:
@@ -74,8 +80,14 @@ class Robot():
         TODO: Comprobar estado de la bateria, en caso de que se termine romper el while.
         '''
         print self.posicion , self.giroscopo , self.sensar(un_ambiente)
+        posicion_sin_avanzar=self.posicion.copy()
+        giro = self.giroscopo.copy()
         while not un_ambiente.estoy_fuera(self.posicion):            
-            self.mi_estrategia.decidir(self,un_ambiente)
             print self.posicion , self.giroscopo , self.sensar(un_ambiente)
+            self.mi_estrategia.decidir(self,un_ambiente)
+            un_ambiente.actualizar(posicion_sin_avanzar, self.posicion, giro)
+            posicion_sin_avanzar=self.posicion.copy()
+            giro = self.giroscopo.copy()
+            
         # eventualmente pasar la carga actual de la bateria
         
