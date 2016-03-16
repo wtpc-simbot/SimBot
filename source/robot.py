@@ -113,8 +113,17 @@ class Robot():
             self.mi_estrategia.decidir(self,un_ambiente)
             posicion_sin_avanzar=self.posicion.copy()
             giro = self.giroscopo.copy()
+            visualiza_ascii(un_ambiente)
     
     def consumo_bateria(self,accion):
+        '''
+        Maneja el consumo de bateria del robot.
+        Si carga_inicial es cero, no hay manejo de bateria, o sea hay bateria infinita.
+
+		Parametros
+		-----------
+		accion: string 'rotar', 'mover', 'chocar', 'sensar'
+        '''
         if self.carga_inicial > 0:            
             gasto_por_mover   = 2
             gasto_por_rotar   = 1
@@ -131,3 +140,30 @@ class Robot():
             if self.bateria <= 0:
                 print 'Me quede sin bateria!!!'
 
+def visualiza_ascii(un_ambiente):
+    '''
+    Visualiza el laberinto en modo texto.     
+    
+    Parametros
+    -----------
+    un_ambiente: objeto Ambiente
+			Instancia del objeto Ambiente creada por main. Es el laberinto en el
+        cual se mueve el robot.
+    '''
+    sizex, sizey = un_ambiente.matriz.shape 
+    print " "
+    print " "
+    print " "
+    print " "
+    for i in xrange(sizex):
+        for j in xrange(sizey):
+            if  un_ambiente.robot.posicion[0]==i and un_ambiente.robot.posicion[1]==j:
+                print "R",
+            else:
+                if un_ambiente.matriz[i,j] == 0:
+                    print " ",
+                else:                    
+                    print un_ambiente.matriz[i,j],
+        print " "
+            
+            
