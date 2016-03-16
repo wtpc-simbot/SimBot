@@ -1,9 +1,8 @@
-import time
 import numpy as np
 from gasp import *
 from source.ambiente import Ambiente
 from source.robot import Robot
-from source.laberinto import Laberinto
+from source.laberintos.laberinto_facil2 import Laberinto
 
 from source.estrategias.hamster import Hamster
 from source.estrategias.buscador_por_derecha import Buscador_por_derecha

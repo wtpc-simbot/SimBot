@@ -10,7 +10,7 @@ import numpy as np
 from gasp import *
 import time
 from source.robot import Robot
-from laberinto import Laberinto
+from laberintos.laberinto_facil2 import Laberinto
 
 
 class Ambiente():
@@ -36,63 +36,6 @@ class Ambiente():
         self.robot = robot
         self.laberinto = laberinto
         self.matriz = self.laberinto.hacer()
-
-    def generar_ambiente(self,cual_ambiente):
-        """
-        Genera la matriz, pone obstaculos y paredes con el siguiente codigo
-            0 vacio
-            1 paredes / obstaculos
-            2 posicion de entrada
-            3 posicion de salida            
-
-        Parameters
-        ----------
-        cual_ambiente : int
-            Un selector de laberintos predefinidos
-            
-        """
-        size = (self.tamano_x,self.tamano_y)
-        matriz = np.zeros(size)               
-
-        if cual_ambiente==0:
-            matriz[0:self.tamano_x,0] = 1
-            matriz[0:self.tamano_x,self.tamano_y-1] = 1
-            matriz[0,0:self.tamano_y] = 1
-            matriz[self.tamano_x-1,0:self.tamano_y] = 1
-            matriz[5,0:8] = 1
-        elif cual_ambiente==1:        
-            matriz[0:self.tamano_x,0] = 1
-            matriz[0:self.tamano_x,self.tamano_y-1] = 1
-            matriz[0,0:self.tamano_y] = 1
-            matriz[self.tamano_x-1,0:self.tamano_y] = 1
-            matriz[3,2:9] = 1
-            matriz[6,0:8] = 1
-        elif cual_ambiente==2:        
-            matriz[0:self.tamano_x,0] = 1
-            matriz[0:self.tamano_x,self.tamano_y-1] = 1
-            matriz[0,0:self.tamano_y] = 1
-            matriz[self.tamano_x-1,0:self.tamano_y] = 1
-            matriz[3,2:9] = 1
-            matriz[6,0:8] = 1
-            matriz[4:6,5] = 1
-        elif cual_ambiente==3:        
-            matriz[0:self.tamano_x,0] = 1
-            matriz[0:self.tamano_x,self.tamano_y-1] = 1
-            matriz[0,0:self.tamano_y] = 1
-            matriz[self.tamano_x-1,0:self.tamano_y] = 1
-            matriz[1:9,4] = 1
-        else:
-            raise Exception(  "no conozco ese ambiente"  )
-        
-        #entrada = 2 y salida = 3
-        matriz[self.entrada] = 2
-        matriz[self.salida] = 3                   
-
-        # Quitado el robot de ambiente
-        #if matriz[tuple(self.robot.posicion)]==1:
-        #    raise Exception(  "OOOPS el robot esta sobre una pared..." )            
-        return matriz            
-        
 
     def chequear_solucion(self):
         """
@@ -186,7 +129,7 @@ class Ambiente():
                     Image("./img/exit.png", (w, h))
                 w += 32
             h -= 32
-        time.sleep(2)
+        #time.sleep(.1)
         
     def actualizar(self, posViejaRobot, posNuevaRobot, orientacion):
         '''
@@ -217,8 +160,9 @@ class Ambiente():
         '''
         imagen_orientacion = "./img/robot_up.png"
         Image(imagen_orientacion, (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0])) 
+
+        time.sleep(0.1)
         
-        time.sleep(.5)
         if posViejaRobot[0] == self.laberinto.entrada[0] and posViejaRobot[1] == self.laberinto.entrada[1]:
             Image("./img/in.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0])) 
             Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
@@ -226,10 +170,8 @@ class Ambiente():
         elif posNuevaRobot[0] == self.laberinto.salida[0] and  posNuevaRobot[1] == self.laberinto.salida[1]:
             Image("./img/grass.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0]))
             Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
-            time.sleep(1)
             Image("./img/grass.png", (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
             Image("./img/ganar.png", (int(((self.laberinto.tamano_y*32)-16)/2),int(((self.laberinto.tamano_y*32)-16)/2)))
-            time.sleep(5)            
         elif posViejaRobot[0] == posNuevaRobot[0] or posViejaRobot[1] == posNuevaRobot[1]:
             Image("./img/grass.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0]))
             Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
