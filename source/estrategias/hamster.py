@@ -4,10 +4,12 @@ Toma la estrategia de un hamster caminando para cualquier lugar
 
 from estrategia import Estrategia
 from random import random
+from robot import Robot
+
 
 class Hamster(Estrategia):
 
-    def estrategia(self, robot):
+    def decidir(self, robot):
         self.robot = robot
         numero = random()
 
