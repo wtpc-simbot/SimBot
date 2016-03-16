@@ -8,7 +8,15 @@ class Robot():
     '''
     def __init__(self, orientacion, posicion, estrategia):
         '''
-		Inicializa el objeto Robot con su posicion, orientacion y un objeto estrategia asociado
+		Inicializa el objeto Robot con su posicion, orientacion y un objeto Estrategia asociado.
+		Parametros
+		----------
+		orientacion: List(int,int)
+			Lista con la orientacion (x,y) del Robot en la matriz del Ambiente (laberinto).
+		posicion: List(int,int)
+			Lista correspondiente a las orientaciones "arriba" (0,1), "abajo" (0,-1), "izquierda" (-1,0) y "derecha" (1,0)
+		estrategia: objeto Estrategia
+			Objeto Estrategia inicializado por main que decidira las acciones del Robot.
         '''
         #self.mi_ambiente = ambiente        
         self.giroscopo = orientacion
@@ -25,9 +33,12 @@ class Robot():
 
     def rotar(self, giro):
         '''
-		Recibe un int giro de estrategia y actualiza la orientacion del giroscopo
-		Sin retorno, solo actualiza la orientacion, en grados
-        '''
+		Cambia la orientacion del Robot.
+		Parametros
+		----------
+		giro: str
+			Valores posibles: "derecha" e "izquierda"
+		'''
         if giro == "derecha":
 			a = self.giroscopo[0]
 			self.giroscopo[0] = self.giroscopo[1]
@@ -42,10 +53,12 @@ class Robot():
 
     def mover(self,un_ambiente):
          '''
-        Esto usa la estrategia para una rapida solucion
-		Sin retorno, actualiza la posicion del objeto
-		Quizas deba agregar un chequeo de las orientaciones y de la poscion dentro del ambiente
-         '''
+		Cambia la posicion del Robot en el Ambiente (laberinto). Agrega el movimiento a la lista historia_posiciones.
+		Parametros
+		----------
+		un_ambiente: objeto Ambiente
+			Instancia del objeto Ambiente creada por main. Es el laberinto en el cual se mueve el robot
+		'''
          if self.sensar(un_ambiente) != 0:
              self.posicion[0] += self.giroscopo[0]
              self.posicion[1] += self.giroscopo[1]     
@@ -62,20 +75,29 @@ class Robot():
 
     def sensar(self,un_ambiente):        
          '''
-         SOLO sensa para adelante y toma de ambientes la distancia al proximo obstaculo o limite en la orientacion actual	
-	   Devuelve el numero entero de pasos posibles hacia adelante
-         TODO: Contemplar el caso de que sense la entrado o la salida.
+		Obtiene la distancia del robot al proximo obstaculo del laberinto en la orientacion actual. 
+		Parametros
+		----------
+		un_ambiente: objeto Ambiente
+			Instancia del objeto Ambiente creada por main. Es el laberinto en el cual se mueve el robot.		
+		Devuelve
+		--------
+		un_ambiente.eco(): int
+			Distancia (en pasos) al proximo obstaculo del laberinto.
          '''
          return un_ambiente.eco()         
          
     def salir_del_laberinto(self,un_ambiente):
         '''
-        Envia estado actual a estrategia para recibir una orden. Estrategia ejecutara las funciones mover, sensar y girar
-        TODO: Comprobar estado de la bateria, en caso de que se termine romper el while.
+		Envia a Estrategia el estado actual (posicion y orientacion) del robot y la distancia al proximo obstaculo obtenida por su sensor y recibe instrucciones para la proxima accion.        
+		Parametros
+		-----------
+		un_ambiente: objeto Ambiente
+			Instancia del objeto Ambiente creada por main. Es el laberinto en el cual se mueve el robot.
         '''
         print self.posicion , self.giroscopo , self.sensar(un_ambiente)
         while not un_ambiente.estoy_fuera(self.posicion):            
             self.mi_estrategia.decidir(self,un_ambiente)
             print self.posicion , self.giroscopo , self.sensar(un_ambiente)
         # eventualmente pasar la carga actual de la bateria
-        
+
