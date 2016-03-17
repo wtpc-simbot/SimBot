@@ -18,6 +18,7 @@ def main():
     salida = (tamano_x-2,tamano_y-2)
     salida = (tamano_x-1,tamano_y-1)
 
+
     pos_robot = np.array(entrada)
     ori_robot = np.array((0,1))
 
@@ -27,7 +28,6 @@ def main():
     carga_inicial = 0
 
     robot = Robot(ori_robot, pos_robot, hamster, carga_inicial)
-    robot = Robot(ori_robot, pos_robot, buscador_por_derecha, carga_inicial)
 
     laberinto = Laberinto(entrada, salida, tamano_x, tamano_y)
     ambiente = Ambiente(robot, laberinto)
@@ -40,7 +40,7 @@ def main():
     #grafico.visualizar()
 
     robot.salir_del_laberinto(ambiente)
-
+    
     #end_graphics()
 
 

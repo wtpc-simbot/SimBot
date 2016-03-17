@@ -52,16 +52,15 @@ class Robot():
 
     def mover(self,un_ambiente):
          '''
-		Cambia la posicion del Robot en el Ambiente (laberinto). Agrega el movimiento a la lista historia_posiciones.
+		Cambia la posicion del Robot en el Ambiente (laberinto). Agrega el
+         movimiento a la lista historia_posiciones.
+         
 		Parametros
 		----------
 		un_ambiente: objeto Ambiente
-			Instancia del objeto Ambiente creada por main. Es el laberinto en el cual se mueve el robot
-         #Esto va?
-        Esto usa la estrategia para una rapida solucion
-		Sin retorno, actualiza la posicion del objeto
-		Quizas deba agregar un chequeo de las orientaciones y de la poscion dentro del ambiente
-         '''
+			Instancia del objeto Ambiente creada por main. Es el laberinto
+         en el cual se mueve el robot
+          '''
          
          if self.sensar(un_ambiente) != 0:
              self.posicion[0] += self.giroscopo[0]
@@ -72,17 +71,18 @@ class Robot():
              # Choca contra la pared
              self.consumo_bateria('chocar')
              self.historia_acciones.append('x')
-             pass
              
          self.historia_posiciones.append(list(self.posicion))
          
     def sensar(self,un_ambiente):        
          '''
-		Obtiene la distancia del robot al proximo obstaculo del laberinto en la orientacion actual. 
+		Obtiene la distancia del robot al proximo obstaculo del laberinto en la
+         orientacion actual. 
 		Parametros
 		----------
 		un_ambiente: objeto Ambiente
-			Instancia del objeto Ambiente creada por main. Es el laberinto en el cual se mueve el robot.		
+			Instancia del objeto Ambiente creada por main. Es el laberinto en el
+         cual se mueve el robot.		
 		Devuelve
 		--------
 		un_ambiente.eco(): int
@@ -111,7 +111,6 @@ class Robot():
         while not un_ambiente.estoy_fuera() and \
               (self.carga_inicial == 0 or self.bateria > 0):            
             self.mi_estrategia.decidir(self,un_ambiente)
-            #un_ambiente.actualizar(posicion_sin_avanzar, self.posicion, self.giroscopo)
             posicion_sin_avanzar=self.posicion.copy()
             giro = self.giroscopo.copy()
     
