@@ -2,13 +2,9 @@ import numpy as np
 from gasp import *
 from source.ambiente import Ambiente
 from source.robot import Robot
-from source.laberintos.laberinto_facil2 import Laberinto
+from source.laberintos.deep_first_search import Laberinto
 
 from source.estrategias.hamster import Hamster
-from source.estrategias.buscador_por_derecha import Buscador_por_derecha
-from source.estrategias.hamster_entrenado import Hamster_Entrenado
-
-
 
 tamano_x, tamano_y = (15,15)
 entrada = (1,1)
@@ -17,8 +13,6 @@ pos_robot = np.array(entrada)
 ori_robot = np.array((0,1))
 
 hamster = Hamster()
-hamster_entrenado=Hamster_Entrenado()
-buscador_por_derecha = Buscador_por_derecha()
 carga_inicial = 1000000
 
 robot = Robot(ori_robot, pos_robot, hamster, carga_inicial)
