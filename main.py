@@ -2,6 +2,7 @@ import numpy as np
 from gasp import *
 from source.ambiente import Ambiente
 from source.robot import Robot
+from source.grafico import Grafico
 from source.laberintos.deep_first_search import Laberinto
 
 from source.estrategias.hamster import Hamster
@@ -18,6 +19,7 @@ carga_inicial = 1000000
 robot = Robot(ori_robot, pos_robot, hamster, carga_inicial)
 laberinto = Laberinto(entrada, salida, tamano_x, tamano_y)
 ambiente = Ambiente(robot, laberinto)
+grafico = Grafico(0.5,ambiente.matriz, laberinto.entrada, laberinto.salida)
 
 # Chequea que tenga salida el laberinto
 print "El laberinto tiene salida?", ambiente.chequear_solucion()
@@ -27,7 +29,8 @@ height = len(ambiente.matriz[0])*32
 begin_graphics(width=width, height=height, title="SimBot")
 
 #~ ambiente.visualizar()
-ambiente.visualizar_oscuridad()
+grafico.visualizar()
+
 robot.salir_del_laberinto(ambiente)
 
 print ambiente.matriz
