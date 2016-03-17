@@ -108,7 +108,7 @@ class Robot():
         giro = self.giroscopo.copy()
         while not un_ambiente.estoy_fuera() and self.bateria > 0:            
             self.mi_estrategia.decidir(self,un_ambiente)
-            un_ambiente.actualizar(posicion_sin_avanzar, self.posicion, giro)
+            un_ambiente.actualizar(posicion_sin_avanzar, self.posicion, self.giroscopo)
             posicion_sin_avanzar=self.posicion.copy()
             giro = self.giroscopo.copy()
             
