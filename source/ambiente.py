@@ -159,22 +159,32 @@ class Ambiente():
             imagen_orientacion = "./img/robot_left.png"
         '''
         imagen_orientacion = "./img/robot_up.png"
-        Image(imagen_orientacion, (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0])) 
+        Image(imagen_orientacion, (32*posViejaRobot[1] + 16,
+                                   (self.laberinto.tamano_y*32) - 16 - 32*posViejaRobot[0])) 
 
         time.sleep(0.1)
         
-        if posViejaRobot[0] == self.laberinto.entrada[0] and posViejaRobot[1] == self.laberinto.entrada[1]:
-            Image("./img/in.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0])) 
-            Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
+        if posViejaRobot[0] == self.laberinto.entrada[0] and \
+           posViejaRobot[1] == self.laberinto.entrada[1]:
+            Image("./img/in.png", (32*posViejaRobot[1] + 16,
+                                   (self.laberinto.tamano_y*32) - 16 - 32*posViejaRobot[0])) 
+            Image(imagen_orientacion, (32*posNuevaRobot[1] + 16,
+                                       (self.laberinto.tamano_y*32) - 16 - 32*posNuevaRobot[0]))
             
-        elif posNuevaRobot[0] == self.laberinto.salida[0] and  posNuevaRobot[1] == self.laberinto.salida[1]:
-            Image("./img/grass.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0]))
-            Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
-            Image("./img/grass.png", (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
-            Image("./img/ganar.png", (int(((self.laberinto.tamano_y*32)-16)/2),int(((self.laberinto.tamano_y*32)-16)/2)))
+        elif posNuevaRobot[0] == self.laberinto.salida[0] and \
+             posNuevaRobot[1] == self.laberinto.salida[1]:
+            Image("./img/grass.png", (32*posViejaRobot[1] + 16,
+                                      (self.laberinto.tamano_y*32) - 16 - 32*posViejaRobot[0]))
+            Image(imagen_orientacion, (32*posNuevaRobot[1] + 16,
+                                       (self.laberinto.tamano_y*32) - 16 - 32*posNuevaRobot[0]))
+            Image("./img/grass.png", (32*posNuevaRobot[1] + 16,
+                                      (self.laberinto.tamano_y*32) - 16 - 32*posNuevaRobot[0]))
+            Image("./img/ganar.png", (int(((self.laberinto.tamano_y*32) - 16)/2),
+                                      int(((self.laberinto.tamano_y*32) - 16)/2)))
         elif posViejaRobot[0] == posNuevaRobot[0] or posViejaRobot[1] == posNuevaRobot[1]:
-            Image("./img/grass.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0]))
-            Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
+            Image("./img/grass.png", (32*posViejaRobot[1] + 16, (self.laberinto.tamano_y*32) - 16 - 32*posViejaRobot[0]))
+            Image(imagen_orientacion, (32*posNuevaRobot[1] + 16,
+                                       (self.laberinto.tamano_y*32) - 16 - 32*posNuevaRobot[0]))
             
     def estoy_fuera(self):
         """
