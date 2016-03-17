@@ -15,6 +15,8 @@ class Laberinto():
     def hacer(self, complexity=.75, density=.75):
 
         size = ((self.tamano_x // 2) * 2 + 1, (self.tamano_y // 2) * 2 + 1)
+
+        self.tamano_x, self.tamano_y = size
    
         complexity = int(complexity * (5 * (size[0] + size[1])))
         density    = int(density * ((size[0] // 2) * (size[1] // 2)))
