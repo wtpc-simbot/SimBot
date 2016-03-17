@@ -1,8 +1,5 @@
 '''
 ACA vive todo
-
-INSTALAR python-gasp
-
 '''
 
 import numpy as np
@@ -99,7 +96,7 @@ class Ambiente():
         distancia = 0
         posicion_actual = self.robot.posicion.copy()
         posicion_sensada = self.robot.posicion  + self.robot.giroscopo
-        gfc.visualizar_mirada(posicion_actual, posicion_sensada,self.robot.giroscopo)
+        #gfc.visualizar_mirada(posicion_actual, posicion_sensada,self.robot.giroscopo)
         while self.matriz[tuple(posicion_sensada)] != 1:
             posicion_sensada += self.robot.giroscopo
             distancia += 1

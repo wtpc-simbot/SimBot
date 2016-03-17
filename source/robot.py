@@ -1,14 +1,13 @@
 '''
 Aca tenemos a HAL
 '''
-from estrategias.estrategia import Estrategia
 
 class Robot():
     '''
+    Clase robot
     '''
-
     
-    def __init__(self, orientacion, posicion, estrategia,carga_inicial):
+    def __init__(self, orientacion, posicion, estrategia, carga_inicial):
         '''
 		Inicializa el objeto Robot con su posicion, orientacion y un objeto Estrategia asociado.
 		Parametros
@@ -21,7 +20,6 @@ class Robot():
 			Objeto Estrategia inicializado por main que decidira las acciones del Robot.
 
         '''
-        #self.mi_ambiente = ambiente        
         self.giroscopo = orientacion
         # TODO hacer la posicion un array
         self.posicion = posicion
@@ -29,7 +27,6 @@ class Robot():
         self.historia_acciones = []
         self.carga_inicial = carga_inicial
         self.bateria = carga_inicial
-        # asumo que estrategia fue inicializada por el main
         self.mi_estrategia = estrategia
 
     def rotar(self, giro):
@@ -98,23 +95,25 @@ class Robot():
          
     def salir_del_laberinto(self,un_ambiente):
         '''
-		Envia a Estrategia el estado actual (posicion y orientacion) del robot y la distancia al proximo obstaculo obtenida por su sensor y recibe instrucciones para la proxima accion.        
+		Envia a Estrategia el estado actual (posicion y orientacion) del robot y
+        la distancia al proximo obstaculo obtenida por su sensor y recibe
+        instrucciones para la proxima accion.
+        
 		Parametros
 		-----------
 		un_ambiente: objeto Ambiente
-			Instancia del objeto Ambiente creada por main. Es el laberinto en el cual se mueve el robot.
+			Instancia del objeto Ambiente creada por main. Es el laberinto en el
+        cual se mueve el robot.
         '''
 
         posicion_sin_avanzar=self.posicion.copy()
         giro = self.giroscopo.copy()
-        while not un_ambiente.estoy_fuera() and (self.carga_inicial == 0 or self.bateria > 0):            
+        while not un_ambiente.estoy_fuera() and \
+              (self.carga_inicial == 0 or self.bateria > 0):            
             self.mi_estrategia.decidir(self,un_ambiente)
             #un_ambiente.actualizar(posicion_sin_avanzar, self.posicion, self.giroscopo)
             posicion_sin_avanzar=self.posicion.copy()
             giro = self.giroscopo.copy()
-            
-        # eventualmente pasar la carga actual de la bateria
-
     
     def consumo_bateria(self,accion):
         if self.carga_inicial > 0:            
