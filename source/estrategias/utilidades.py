@@ -46,13 +46,13 @@ def retorno_ultimo_giro(robot, ambiente):
     while robot.historia_acciones[acciones] != "f":
         if robot.historia_acciones[acciones] == "s":
             acciones -= 1   
-	    else:
+        else:
             if robot.historia_acciones[acciones] == "r":
-	            robot.rotar("izquierda") 
-	        if robot.historia_acciones[acciones] == "l":
-	            robot.rotar("derecha")
-	        contador -= 1
-	        robot_rotado == True
+                robot.rotar("izquierda") 
+            if robot.historia_acciones[acciones] == "l":
+                robot.rotar("derecha")
+            contador -= 1
+            robot_rotado == True
 	# Si no deshizo ningun giro hasta ahora, hay que girar el robot 180 grados para poder deshacer los ultimos pasos.
 	if not robot_rotado:
 	    robot.rotar("derecha")
@@ -65,11 +65,11 @@ def retorno_ultimo_giro(robot, ambiente):
         # chequear como paso ambiente
             robot.mover(ambiente)
             acciones -= 1
-     # Deshace el ultimo giro.
-     if robot.historia_acciones[acciones] == "r"
-	            robot.rotar("izquierda") 
-	        if robot.historia_acciones[acciones] == "l"
-	            robot.rotar("derecha")      
+    # Deshace el ultimo giro.
+    if robot.historia_acciones[acciones] == "r":
+        robot.rotar("izquierda") 
+    if robot.historia_acciones[acciones] == "l":
+        robot.rotar("derecha")      
     
         
            
