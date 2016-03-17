@@ -26,7 +26,8 @@ width = len(ambiente.matriz)*32
 height = len(ambiente.matriz[0])*32
 begin_graphics(width=width, height=height, title="SimBot")
 
-ambiente.visualizar()
+#~ ambiente.visualizar()
+ambiente.visualizar_oscuridad()
 robot.salir_del_laberinto(ambiente)
 
 print ambiente.matriz

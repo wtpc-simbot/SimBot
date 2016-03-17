@@ -81,8 +81,9 @@ class Ambiente():
                 break
             if tiene_solucion == 1:
                 break
-        return tiene_solucion              
-
+        return tiene_solucion  
+        
+   
     def eco(self): 
         """
         Devuelve la cantidad de casillas libres por delante del robot
@@ -93,13 +94,19 @@ class Ambiente():
             cantidad de casillas libres delante del robot (0 si esta mirando 
             la pared).
         """            
+        '''
         distancia = 0
         posicion_sensada = self.robot.posicion  + self.robot.giroscopo
         #print posicion_sensada , self.matriz[tuple(posicion_sensada)]
+        '''
+        distancia = 0
+        posicion_actual = self.robot.posicion.copy()
+        posicion_sensada = self.robot.posicion  + self.robot.giroscopo
+        self.visualizar_mirada(posicion_actual, posicion_sensada,self.robot.giroscopo)
         while self.matriz[tuple(posicion_sensada)] != 1:
-            #print posicion_sensada
             posicion_sensada += self.robot.giroscopo
             distancia += 1
+       
         return distancia
 
     def visualizar(self):        
@@ -181,6 +188,76 @@ class Ambiente():
         else:   
             Image("./img/grass.png", (w_viejo, h_viejo))
             Image(imagen_orientacion, (w_nuevo, h_nuevo))
+            
+        sleep(.01)    
+        
+        
+    def visualizar_oscuridad(self):
+        '''
+    Funcion que muestra por pantalla el laberinto
+      
+    ENTRADA:
+		Ambiente
+        SALIDA:
+			Imagen por pantalla
+        '''
+        h_min = 16 
+        h_max = (self.laberinto.tamano_y*32)-16
+        w=16
+        for i in range(self.laberinto.tamano_x):
+            Image("./img/bloque.png", (w, h_min))
+            Image("./img/bloque.png", (w, h_max))
+            w += 32
+        w_min = 16
+        w_max = (self.laberinto.tamano_x*32)-16
+        h = 16
+        for j in range(self.laberinto.tamano_y):
+            w = 16
+            Image("./img/bloque.png", (w_min, h))
+            Image("./img/bloque.png", (w_max, h))
+            h += 32
+        sleep(2)
+        
+        w = 32 * self.laberinto.entrada[1]+16
+        h = (self.laberinto.tamano_y*32) - 16 - 32 * self.laberinto.entrada[0]
+        Image("./img/in.png", (w, h)) 
+        Image("./img/robot_up.png", (w, h))
+        
+        return 0
+
+    def visualizar_mirada(self, actual, mirada, orientacion):
+        w_viejo=32*actual[1]+16
+        h_viejo=(self.laberinto.tamano_y*32)-16-32*actual[0]        
+        w_nuevo=32*mirada[1]+16
+        h_nuevo=(self.laberinto.tamano_y*32)-16-32*mirada[0]
+        w=32*mirada[1]+16
+        h=(self.laberinto.tamano_y*32)-16-32*mirada[0]
+                
+        if orientacion[0] == 1 and orientacion[1] == 0:
+            print "abajo", orientacion
+            imagen_orientacion = "./img/robot_down.png"
+        elif orientacion[0] == 0 and orientacion[1] == 1:
+            print "derecha", orientacion
+            imagen_orientacion = "./img/robot_right.png"
+        elif orientacion[0] == -1 and orientacion[1] == 0:
+            print "arriba", orientacion
+            imagen_orientacion = "./img/robot_up.png"
+        elif orientacion[0] == 0 and orientacion[1] == -1:
+            print "izquierda", orientacion
+            imagen_orientacion = "./img/robot_left.png"
+        Image(imagen_orientacion, (32*actual[1]+16, (self.laberinto.tamano_y*32)-16-32*actual[0])) 
+        #~ sleep(0.01)
+
+        if self.matriz [tuple(mirada)] == 2:
+            Image("./img/in.png", (w, h)) 
+        elif self.matriz [tuple(mirada)] == 3:
+            Image("./img/grass.png", (w, h))
+            Image("./img/exit.png", (w, h))
+        elif self.matriz [tuple(mirada)] == 1:
+            Image("./img/bloque.png", (w, h))
+        elif self.matriz [tuple(mirada)] == 0:
+            Image("./img/grass.png", (w, h))
+        sleep(1)            
 
     def estoy_fuera(self):
         """
