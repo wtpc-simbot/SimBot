@@ -5,11 +5,9 @@ INSTALAR python-gasp
 
 '''
 
-
 import numpy as np 
 from gasp import *
-import time
-from source.robot import Robot
+from time import sleep
 from laberinto import Laberinto
 
 
@@ -186,54 +184,53 @@ class Ambiente():
                     Image("./img/exit.png", (w, h))
                 w += 32
             h -= 32
-        time.sleep(2)
+        sleep(2)
         
     def actualizar(self, posViejaRobot, posNuevaRobot, orientacion):
         '''
         Funcion que muestra por pantalla el recorrido del robot
         atraves del laberinto, hasta que llega a la salida
         
-        orientacion
-        (-1,0) abajo 
-        (0,1) derecha
-        (1,0) arriba
-        (0,-1) izquierda
-        
-        
         ENTRADA:
 			posicion:  punto en donde se encuentra el robot
         SALIDA:
 			Imagen por pantalla
         '''
-        '''
+        print  posViejaRobot, self.robot.posicion
         if orientacion[0] == 1 and orientacion[1] == 0:
+            print "abajo", orientacion
             imagen_orientacion = "./img/robot_down.png"
         elif orientacion[0] == 0 and orientacion[1] == 1:
-            imagen_orientacion = "./img/robot_up.png"
-        elif orientacion[0] == -1 and orientacion[1] == 0:
+            print "derecha", orientacion
             imagen_orientacion = "./img/robot_right.png"
+        elif orientacion[0] == -1 and orientacion[1] == 0:
+            print "arriba", orientacion
+            imagen_orientacion = "./img/robot_up.png"
         elif orientacion[0] == 0 and orientacion[1] == -1:
+            print "izquierda", orientacion
             imagen_orientacion = "./img/robot_left.png"
-        '''
-        imagen_orientacion = "./img/robot_up.png"
+
+        w_viejo=32*posViejaRobot[1]+16
+        h_viejo=(self.laberinto.tamano_y*32)-16-32*posViejaRobot[0]        
+        w_nuevo=32*posNuevaRobot[1]+16
+        h_nuevo=(self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]
         Image(imagen_orientacion, (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0])) 
-        
-        time.sleep(.5)
+        sleep(0.01)
+
         if posViejaRobot[0] == self.laberinto.entrada[0] and posViejaRobot[1] == self.laberinto.entrada[1]:
-            Image("./img/in.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0])) 
-            Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
-            
+            Image("./img/in.png", (w_viejo, h_viejo)) 
+            Image(imagen_orientacion, (w_nuevo, h_nuevo))
         elif posNuevaRobot[0] == self.laberinto.salida[0] and  posNuevaRobot[1] == self.laberinto.salida[1]:
-            Image("./img/grass.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0]))
-            Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
+            Image("./img/grass.png", (w_viejo, h_viejo))
+            Image(imagen_orientacion, (w_nuevo, h_nuevo))
             time.sleep(1)
-            Image("./img/grass.png", (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
+            Image("./img/grass.png", (w_nuevo, h_nuevo))
             Image("./img/ganar.png", (int(((self.laberinto.tamano_y*32)-16)/2),int(((self.laberinto.tamano_y*32)-16)/2)))
             time.sleep(5)            
-        elif posViejaRobot[0] == posNuevaRobot[0] or posViejaRobot[1] == posNuevaRobot[1]:
-            Image("./img/grass.png", (32*posViejaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posViejaRobot[0]))
-            Image(imagen_orientacion, (32*posNuevaRobot[1]+16, (self.laberinto.tamano_y*32)-16-32*posNuevaRobot[0]))
-            
+        else:   
+            Image("./img/grass.png", (w_viejo, h_viejo))
+            Image(imagen_orientacion, (w_nuevo, h_nuevo))
+        sleep(.01)    
     def estoy_fuera(self):
         """
         Comprueba si la posicion actual del robot es la casilla de salida
