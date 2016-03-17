@@ -41,7 +41,7 @@ class Grafico():
         Funcion que muestra por pantalla el laberinto
         
         ENTRADA:
-			Ambiente
+			
         SALIDA:
 			Imagen por pantalla
         '''
@@ -63,32 +63,33 @@ class Grafico():
                 w += 32
             h -= 32
 
-        sleep(2)
+        sleep(self.tiempo)
 
-    def actualizar(self, posViejaRobot, posNuevaRobot, orientacion):
+    def actualizar(self, posicion_vieja, posicion_nueva, orientacion):
         '''
         Funcion que muestra por pantalla el recorrido del robot
         atraves del laberinto, hasta que llega a la salida
         
         ENTRADA:
-			posicion:  punto en donde se encuentra el robot
+			posicion_vieja:  punto en donde se encuentra el robot
+			posicion_nueva:  punto hacia adonde avanzaria el robot
         SALIDA:
-			Imagen por pantalla
+			Actualizacion por pantalla
         '''
         imagen_orientacion = self.girar_robot_dibujo(orientacion) 
-        w_viejo = 32*posViejaRobot[1] + 16
-        h_viejo = (self.tamano_y*32) - 16 - 32*posViejaRobot[0]        
-        w_nuevo = 32*posNuevaRobot[1] + 16
-        h_nuevo = (self.tamano_y*32) - 16 - 32*posNuevaRobot[0]
+        w_viejo = 32*posicion_vieja[1] + 16
+        h_viejo = (self.tamano_y*32) - 16 - 32*posicion_vieja[0]        
+        w_nuevo = 32*posicion_nueva[1] + 16
+        h_nuevo = (self.tamano_y*32) - 16 - 32*posicion_nueva[0]
         Image(imagen_orientacion,(w_viejo, h_viejo))
 
 
-        if posViejaRobot[0] == self.punto_entrada[0] and \
-           posViejaRobot[1] == self.punto_entrada[1]:
+        if posicion_vieja[0] == self.punto_entrada[0] and \
+           posicion_vieja[1] == self.punto_entrada[1]:
             Image(self.entrada, (w_viejo, h_viejo)) 
             Image(imagen_orientacion, (w_nuevo, h_nuevo))
-        elif posNuevaRobot[0] == self.punto_salida[0] and \
-             posNuevaRobot[1] == self.punto_salida[1]:
+        elif posicion_nueva[0] == self.punto_salida[0] and \
+             posicion_nueva[1] == self.punto_salida[1]:
             Image(self.pasto, (w_viejo, h_viejo))
             Image(imagen_orientacion, (w_nuevo, h_nuevo))
 
@@ -101,17 +102,17 @@ class Grafico():
             Image(self.pasto, (w_viejo, h_viejo))
             Image(imagen_orientacion, (w_nuevo, h_nuevo))
             
-        sleep(.01)    
+        sleep(self.tiempo)
         
         
     def visualizar_oscuridad(self):
         '''
-    Funcion que muestra por pantalla el laberinto
+        Funcion que muestra por pantalla el laberinto a oscuras
       
-    ENTRADA:
-		Ambiente
+        ENTRADA:
+
         SALIDA:
-			Imagen por pantalla
+			Laberinto a oscuras
         '''
         h_min = 16 
         h_max = (self.tamano_y*32)-16
@@ -134,7 +135,7 @@ class Grafico():
         h = (self.tamano_y*32) - 16 - 32 * self.punto_entrada[0]
         Image(self.entrada, (w, h)) 
         Image(self.robot_up, (w, h))
-        sleep(self.tiempo*4)
+        sleep(self.tiempo)
         return 0
 
     def visualizar_mirada(self, actual, mirada, orientacion):
@@ -155,3 +156,4 @@ class Grafico():
             Image(self.bloque, (w_nuevo, h_nuevo))
         elif self.matriz[tuple(mirada)] == 0:
             Image(self.pasto, (w_nuevo, h_nuevo))
+        sleep(self.tiempo)

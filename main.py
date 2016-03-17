@@ -14,10 +14,9 @@ from source.estrategias.hamster import Hamster
 from source.estrategias.buscador_por_derecha import Buscador_por_derecha
 
 
-tamano_x, tamano_y = (30,30)
+tamano_x, tamano_y = (13,13)
 entrada = (1,1)
 salida = (tamano_x-2,tamano_y-2)
-salida = (tamano_x-1,tamano_y-1)
 
 pos_robot = np.array(entrada)
 ori_robot = np.array((0,1))
@@ -25,10 +24,10 @@ ori_robot = np.array((0,1))
 hamster = Hamster()
 buscador_por_derecha = Buscador_por_derecha()
 
-carga_inicial = 100
+carga_inicial = 0
 
 robot = Robot(ori_robot, pos_robot, hamster, carga_inicial)
-robot = Robot(ori_robot, pos_robot, buscador_por_derecha, carga_inicial)
+#~ robot = Robot(ori_robot, pos_robot, buscador_por_derecha, carga_inicial)
 
 laberinto = Laberinto(entrada, salida, tamano_x, tamano_y)
 ambiente = Ambiente(robot, laberinto)
@@ -37,16 +36,25 @@ grafico = Grafico(0.5,ambiente.matriz, laberinto.entrada, laberinto.salida)
 
 
 # Chequea que tenga salida el laberinto
-#print "El laberinto tiene salida?", ambiente.chequear_solucion()
+# print "El laberinto tiene salida?", ambiente.chequear_solucion()
 
 width = len(ambiente.matriz)*32
 height = len(ambiente.matriz[0])*32
-begin_graphics(width=width, height=height, title="SimBot")
+begin_graphics(width=width, height=height, title="SimBot", background=color.BLACK)
+
+#~ Funcion que inicializa el laberinto a oscuras
+#~ grafico.visualizar_oscuridad()
 
 grafico.visualizar()
-
-robot.salir_del_laberinto(ambiente)
-
+posicion_sin_avanzar=robot.posicion.copy()
+giro = robot.giroscopo.copy()
+while not ambiente.estoy_fuera(): 
+    posicion_sensada=robot.posicion + robot.giroscopo
+    robot.mi_estrategia.decidir(robot, ambiente)
+    grafico.visualizar_mirada(posicion_sin_avanzar, posicion_sensada,robot.giroscopo)
+    grafico.actualizar(posicion_sin_avanzar, robot.posicion, robot.giroscopo)
+    posicion_sin_avanzar=robot.posicion.copy()
+    giro = robot.giroscopo.copy()
 print ambiente.matriz
 
 #chequeo que no camine por las paredes
