@@ -27,6 +27,7 @@ class Robot():
         self.posicion = posicion
         self.historia_posiciones = []
         self.historia_acciones = []
+        self.carga_inicial = carga_inicial
         self.bateria = carga_inicial
         # asumo que estrategia fue inicializada por el main
         self.mi_estrategia = estrategia
@@ -106,9 +107,9 @@ class Robot():
 
         posicion_sin_avanzar=self.posicion.copy()
         giro = self.giroscopo.copy()
-        while not un_ambiente.estoy_fuera() and self.bateria > 0:            
+        while not un_ambiente.estoy_fuera() and (self.carga_inicial == 0 or self.bateria > 0):            
             self.mi_estrategia.decidir(self,un_ambiente)
-            un_ambiente.actualizar(posicion_sin_avanzar, self.posicion, self.giroscopo)
+            #un_ambiente.actualizar(posicion_sin_avanzar, self.posicion, self.giroscopo)
             posicion_sin_avanzar=self.posicion.copy()
             giro = self.giroscopo.copy()
             
@@ -116,18 +117,19 @@ class Robot():
 
     
     def consumo_bateria(self,accion):
-        gasto_por_mover   = 2
-        gasto_por_rotar   = 1
-        gasto_por_chocar  = 4
-        gasto_por_sensar  = 1 
-        if accion == 'rotar':
-             self.bateria -= gasto_por_rotar
-        elif accion == 'mover':
-             self.bateria -= gasto_por_mover
-        elif accion == 'chocar':
-             self.bateria -= gasto_por_chocar
-        elif accion == 'sensar':
-             self.bateria -= gasto_por_sensar
-        if self.bateria <= 0:
-            print 'Me quede sin bateria!!!'
+        if self.carga_inicial > 0:            
+            gasto_por_mover   = 2
+            gasto_por_rotar   = 1
+            gasto_por_chocar  = 4
+            gasto_por_sensar  = 1 
+            if accion == 'rotar':
+                 self.bateria -= gasto_por_rotar
+            elif accion == 'mover':
+                 self.bateria -= gasto_por_mover
+            elif accion == 'chocar':
+                 self.bateria -= gasto_por_chocar
+            elif accion == 'sensar':
+                 self.bateria -= gasto_por_sensar
+            if self.bateria <= 0:
+                print 'Me quede sin bateria!!!'
 

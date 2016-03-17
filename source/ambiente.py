@@ -9,7 +9,7 @@ import numpy as np
 from time import sleep
 from gasp import *
 from source.robot import Robot
-from laberintos.laberinto_facil2 import Laberinto
+#from laberintos.laberinto_facil2 import Laberinto
 
 
 class Ambiente():
@@ -67,16 +67,18 @@ class Ambiente():
                         if una_matriz[i,j+1]==0:
                             aux += 1
                             una_matriz[i,j+1] = 2
+                            
                         if una_matriz[i,j-1]==0:
                             aux += 1
                             una_matriz[i,j-1] = 2
+
                         if una_matriz[i+1,j]==0:
                             aux += 1
                             una_matriz[i+1,j] = 2
+
                         if una_matriz[i-1,j]==0:
                             aux += 1
                             una_matriz[i-1,j] = 2
-            #print una_matriz
             if aux == 0:
                 break
             if tiene_solucion == 1:
@@ -102,7 +104,7 @@ class Ambiente():
         distancia = 0
         posicion_actual = self.robot.posicion.copy()
         posicion_sensada = self.robot.posicion  + self.robot.giroscopo
-        self.visualizar_mirada(posicion_actual, posicion_sensada,self.robot.giroscopo)
+        #self.visualizar_mirada(posicion_actual, posicion_sensada,self.robot.giroscopo)
         while self.matriz[tuple(posicion_sensada)] != 1:
             posicion_sensada += self.robot.giroscopo
             distancia += 1
@@ -189,7 +191,7 @@ class Ambiente():
             Image("./img/grass.png", (w_viejo, h_viejo))
             Image(imagen_orientacion, (w_nuevo, h_nuevo))
             
-        sleep(.01)    
+        #sleep(.01)    
         
         
     def visualizar_oscuridad(self):
