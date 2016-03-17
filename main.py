@@ -7,6 +7,7 @@ import matplotlib.animation
 
 from source.ambiente import Ambiente
 from source.robot import Robot
+from source.grafico import Grafico
 from source.laberintos.deep_first_search import Laberinto
 
 from source.estrategias.hamster import Hamster
@@ -31,6 +32,7 @@ robot = Robot(ori_robot, pos_robot, buscador_por_derecha, carga_inicial)
 
 laberinto = Laberinto(entrada, salida, tamano_x, tamano_y)
 ambiente = Ambiente(robot, laberinto)
+grafico = Grafico(0.5,ambiente.matriz, laberinto.entrada, laberinto.salida)
 
 
 
@@ -39,10 +41,10 @@ ambiente = Ambiente(robot, laberinto)
 
 width = len(ambiente.matriz)*32
 height = len(ambiente.matriz[0])*32
-#begin_graphics(width=width, height=height, title="SimBot")
+begin_graphics(width=width, height=height, title="SimBot")
 
-#~ ambiente.visualizar()
-#ambiente.visualizar_oscuridad()
+grafico.visualizar()
+
 robot.salir_del_laberinto(ambiente)
 
 print ambiente.matriz
@@ -53,7 +55,7 @@ for i in robot.historia_posiciones:
         print "OOPS el robot paso por arriba de una pared en ", i
 
 
-#end_graphics()
+end_graphics()
 
 
 
