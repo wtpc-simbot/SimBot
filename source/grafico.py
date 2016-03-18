@@ -8,7 +8,8 @@ class Grafico():
 		robot_down="./img/robot_down.png",robot_left="./img/robot_left.png",
 		robot_right="./img/robot_right.png", entrada = "./img/in.png", 
 		pasto = "./img/grass.png", salida = "./img/exit.png", 
-		bloque = "./img/bloque.png"):
+		bloque = "./img/bloque.png", ganar= "./img/ganar.png", 
+		perder = "./img/robot_battery.png"):
               
         self.entrada = entrada
         self.salida = salida
@@ -20,6 +21,8 @@ class Grafico():
         self.robot_right = robot_right
         self.punto_entrada = punto_entrada
         self.punto_salida = punto_salida
+        self.ganar = ganar
+        self.perder = perder        
         self.matriz = matriz
         self.tiempo = tiempo
         self.tamano_x = len(self.matriz)
@@ -88,20 +91,20 @@ class Grafico():
            posicion_vieja[1] == self.punto_entrada[1]:
             Image(self.entrada, (w_viejo, h_viejo)) 
             Image(imagen_orientacion, (w_nuevo, h_nuevo))
-        elif posicion_nueva[0] == self.punto_salida[0] and \
-             posicion_nueva[1] == self.punto_salida[1]:
+        elif posicion_nueva[0] != self.punto_salida[0] or \
+             posicion_nueva[1] != self.punto_salida[1]:
             Image(self.pasto, (w_viejo, h_viejo))
             Image(imagen_orientacion, (w_nuevo, h_nuevo))
 
             Image(self.pasto, (w_nuevo, h_nuevo))
-            Image("./img/ganar.png",
-                  (int(((self.tamano_y*32) - 16)/2),
-                   int(((self.tamano_y*32) - 16)/2)))
-
-        else:   
-            Image(self.pasto, (w_viejo, h_viejo))
-            Image(imagen_orientacion, (w_nuevo, h_nuevo))
-            
+            #~ Image(self.ganar,
+                  #~ (int(((self.tamano_y*32) - 16)/2),
+                   #~ int(((self.tamano_y*32) - 16)/2)))
+#~ 
+        #~ else:   
+            #~ Image(self.pasto, (w_viejo, h_viejo))
+            #~ Image(imagen_orientacion, (w_nuevo, h_nuevo))
+            #~ 
         sleep(self.tiempo)
         
         

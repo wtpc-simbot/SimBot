@@ -1,7 +1,7 @@
 '''
 Aca tenemos a HAL
 '''
-
+from gasp import *
 class Robot():
     '''
     Clase robot
@@ -93,7 +93,7 @@ class Robot():
 
          return un_ambiente.eco()         
          
-    def salir_del_laberinto(self,un_ambiente):
+    def salir_del_laberinto(self,un_ambiente,grafico):
         '''
 		Envia a Estrategia el estado actual (posicion y orientacion) del robot y
         la distancia al proximo obstaculo obtenida por su sensor y recibe
@@ -107,13 +107,18 @@ class Robot():
         '''
 
         posicion_sin_avanzar=self.posicion.copy()
-        giro = self.giroscopo.copy()
         while not un_ambiente.estoy_fuera() and \
-              (self.carga_inicial == 0 or self.bateria > 0):            
+            (self.carga_inicial == 0 or self.bateria > 0):            
             self.mi_estrategia.decidir(self,un_ambiente)
+            grafico.visualizar_mirada(posicion_sin_avanzar,(posicion_sin_avanzar + self.giroscopo),self.giroscopo)
+            grafico.actualizar(posicion_sin_avanzar, self.posicion, self.giroscopo)
             posicion_sin_avanzar=self.posicion.copy()
-            giro = self.giroscopo.copy()
-            visualiza_ascii(un_ambiente)
+            #~ visualiza_ascii(un_ambiente)
+        img = grafico.ganar
+        if self.carga_inicial != 0 and self.bateria <= 0:
+            img=grafico.perder
+        Image(img,(int(((grafico.tamano_y*32) - 16)/2),int(((grafico.tamano_x*32) - 16)/2)))
+        
     
     def consumo_bateria(self,accion):
         '''
