@@ -27,7 +27,7 @@ def main():
     hamster = Hamster()
     buscador_por_derecha = Buscador_por_derecha()
 
-    carga_inicial = 40
+    carga_inicial = 0
 
     robot = Robot(ori_robot, pos_robot, buscador_por_derecha, carga_inicial)
 
