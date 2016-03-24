@@ -21,7 +21,7 @@ class Laberinto():
         complexity = int(complexity * (5 * (size[0] + size[1])))
         density    = int(density * ((size[0] // 2) * (size[1] // 2)))
             # Build actual maze
-        Z = np.zeros(size, dtype=np.int)
+        Z = np.zeros(size, dtype=np.int8)
     # Fill borders
         Z[0, :] = Z[-1, :] = 1
         Z[:, 0] = Z[:, -1] = 1
